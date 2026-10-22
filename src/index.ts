@@ -10,6 +10,11 @@ interface Question {
   choices: Choice[]
 }
 
+interface Outcome {
+  title: string
+  description: string
+}
+
 // --- Data ---
 
 const question: Question = {
@@ -19,6 +24,12 @@ const question: Question = {
     { label: "Straight to the beach, breakfast can wait", points: 2 },
     { label: "Brunch at the place everyone is posting about", points: 1 },
   ],
+}
+
+const outcome: Outcome = {
+  title: "Gràcia",
+  description:
+    "Small squares, slow mornings and neighbours who know your name.",
 }
 
 const answer = 0
@@ -33,3 +44,6 @@ console.log(
     question.choices[answer].points +
     " points)",
 )
+
+console.log("")
+console.log(`${outcome.title}\n${outcome.description}`)
