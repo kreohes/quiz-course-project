@@ -1,4 +1,4 @@
-import { type Question } from "./types.ts"
+import { type Answer, type Question } from "./types.ts"
 
 export function show(question: Question): string {
   if (question.kind === "choice") {
@@ -16,4 +16,22 @@ export function show(question: Question): string {
   } else {
     throw new Error("Unknown kind")
   }
+}
+
+export function award(answer: Answer): number {
+  let points = 0
+  if (answer.kind === "choice") {
+    points = answer.picked.points
+  } else if (answer.kind === "scale") {
+    points = answer.value
+  } else if (answer.kind === "yesno") {
+    if (answer.value === true) {
+      points = 1
+    } else {
+      points = 0
+    }
+  } else {
+    throw new Error("Unknown kind")
+  }
+  return points
 }

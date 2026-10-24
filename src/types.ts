@@ -28,3 +28,20 @@ export interface Outcome {
   title: string
   description: string
 }
+
+interface ChoiceAnswer {
+  kind: "choice"
+  picked: Choice
+}
+
+interface ScaleAnswer {
+  kind: "scale"
+  value: number
+}
+
+interface YesNoAnswer {
+  kind: "yesno"
+  value: boolean
+}
+
+export type Answer = ChoiceAnswer | ScaleAnswer | YesNoAnswer
