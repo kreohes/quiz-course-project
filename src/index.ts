@@ -1,5 +1,5 @@
 import { outcome, questions } from "./data.ts"
-import { award, show } from "./quiz.ts"
+import { award, recap, show } from "./quiz.ts"
 import { type Answer } from "./types.ts"
 
 // answers are hardcoded for now, one for every question
@@ -31,6 +31,12 @@ for (let i = 0; i < questions.length; i++) {
 }
 
 console.log("Total " + total)
+console.log("")
+
+console.log("Your answers:")
+for (let i = 0; i < questions.length; i++) {
+  console.log(recap(questions[i], answers[i]))
+}
 
 console.log("")
 console.log(`${outcome.title}\n${outcome.description}`)

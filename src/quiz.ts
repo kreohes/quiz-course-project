@@ -35,3 +35,20 @@ export function award(answer: Answer): number {
   }
   return points
 }
+
+export function recap(question: Question, answer: Answer): string {
+  if (question.kind === "choice" && answer.kind === "choice") {
+    return question.text + " You chose " + answer.picked.label + "."
+  }
+  if (question.kind === "scale" && answer.kind === "scale") {
+    return question.text + " You rated it " + answer.value + " out of 5."
+  }
+  if (question.kind === "yesno" && answer.kind === "yesno") {
+    if (answer.value) {
+      return question.text + " You said yes."
+    } else {
+      return question.text + " You said no."
+    }
+  }
+  throw new Error("The answer does not match the question")
+}
