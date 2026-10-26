@@ -52,3 +52,10 @@ const result = session.result()
 
 console.log("You are: " + result.title)
 console.log(result.description)
+console.log("")
+
+console.log("You got this because:")
+const reasons = session.explain()
+for (let i = 0; i < reasons.length; i++) {
+  console.log("- " + reasons[i])
+}

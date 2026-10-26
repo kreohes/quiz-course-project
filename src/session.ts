@@ -1,3 +1,4 @@
+import { recap } from "./quiz.ts"
 import {
   type Answer,
   type Outcome,
@@ -18,6 +19,13 @@ export class Session {
     barceloneta: 0,
     eixample: 0,
     born: 0,
+  }
+
+  private reasons: Record<OutcomeId, string[]> = {
+    gracia: [],
+    barceloneta: [],
+    eixample: [],
+    born: [],
   }
 
   private outcomes: Outcome[]
@@ -42,6 +50,10 @@ export class Session {
 
     const result = award(question, answer)
     this.tally[result.outcome] = this.tally[result.outcome] + result.points
+
+    if (result.points > 0) {
+      this.reasons[result.outcome].push(recap(question, answer))
+    }
 
     return result
   }
@@ -72,6 +84,16 @@ export class Session {
     }
 
     return best
+  }
+
+  public explain(): string[] {
+    if (this.status !== "done") {
+      throw new Error("The quiz has not finished")
+    }
+
+    const winner = this.result()
+    // a copy, so nobody can change the list from outside
+    return this.reasons[winner.id].slice()
   }
 }
 
