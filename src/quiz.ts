@@ -18,24 +18,6 @@ export function show(question: Question): string {
   }
 }
 
-export function award(answer: Answer): number {
-  let points = 0
-  if (answer.kind === "choice") {
-    points = answer.picked.points
-  } else if (answer.kind === "scale") {
-    points = answer.value
-  } else if (answer.kind === "yesno") {
-    if (answer.value === true) {
-      points = 1
-    } else {
-      points = 0
-    }
-  } else {
-    throw new Error("Unknown kind")
-  }
-  return points
-}
-
 export function recap(question: Question, answer: Answer): string {
   if (question.kind === "choice" && answer.kind === "choice") {
     return question.text + " You chose " + answer.picked.label + "."
