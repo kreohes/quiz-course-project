@@ -14,6 +14,7 @@ export interface Choice {
 
 interface BaseQuestion {
   text: string
+  hint?: string
 }
 
 interface ChoiceQuestion extends BaseQuestion {
@@ -34,6 +35,11 @@ interface YesNoQuestion extends BaseQuestion {
 }
 
 export type Question = ChoiceQuestion | ScaleQuestion | YesNoQuestion
+
+export interface Quiz {
+  outcomes: Outcome[]
+  questions: Question[]
+}
 
 interface ChoiceAnswer {
   kind: "choice"

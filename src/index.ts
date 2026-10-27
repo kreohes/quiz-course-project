@@ -1,36 +1,18 @@
-import { outcomes, questions } from "./data.ts"
-import { recap, show } from "./quiz.ts"
-import { Session } from "./session.ts"
-import { type Answer } from "./types.ts"
+import { quiz } from "./data.ts"
+import { loadSavedGame } from "./lib/load.ts"
+import { recap, show } from "./lib/quiz.ts"
+import { Session } from "./lib/session.ts"
+import { savedGame } from "./saved.ts"
 
-// answers are hardcoded for now, one for every question
-const answers: Answer[] = [
-  {
-    kind: "choice",
-    picked: {
-      label: "Coffee on a small square, then a slow walk",
-      outcome: "gracia",
-      points: 3,
-    },
-  },
-  {
-    kind: "choice",
-    picked: {
-      label: "Paella with your feet almost in the sand",
-      outcome: "barceloneta",
-      points: 2,
-    },
-  },
-  { kind: "scale", value: 2 },
-  { kind: "yesno", value: true },
-]
+const game = loadSavedGame(savedGame)
+const answers = game.answers
 
-const session = new Session(outcomes)
+const session = new Session(quiz.outcomes)
 
 session.start()
 
-for (let i = 0; i < questions.length; i++) {
-  const question = questions[i]
+for (let i = 0; i < quiz.questions.length; i++) {
+  const question = quiz.questions[i]
   const answer = answers[i]
 
   const award = session.record(question, answer)
@@ -43,8 +25,8 @@ for (let i = 0; i < questions.length; i++) {
 session.finish()
 
 console.log("Your answers:")
-for (let i = 0; i < questions.length; i++) {
-  console.log(recap(questions[i], answers[i]))
+for (let i = 0; i < quiz.questions.length; i++) {
+  console.log(recap(quiz.questions[i], answers[i]))
 }
 console.log("")
 
@@ -58,4 +40,21 @@ console.log("You got this because:")
 const reasons = session.explain()
 for (let i = 0; i < reasons.length; i++) {
   console.log("- " + reasons[i])
+}
+
+// what happens with a broken save
+console.log("")
+try {
+  loadSavedGame('{"answers":[{"kind":"scale","value":"five"}]}')
+} catch (error) {
+  if (error instanceof Error) {
+    console.log(error.message)
+  }
+}
+try {
+  loadSavedGame('{"answers": [')
+} catch (error) {
+  if (error instanceof Error) {
+    console.log(error.message)
+  }
 }
