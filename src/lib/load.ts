@@ -1,6 +1,6 @@
 import { outcomes } from "../data.ts"
 
-import { type Answer, type Choice } from "./types.ts"
+import { type Answer, type Choice, type Settings } from "./types.ts"
 
 export interface SavedGame {
   answers: Answer[]
@@ -23,6 +23,40 @@ export function loadSavedGame(saved: string): SavedGame {
   }
 
   return value
+}
+
+export function loadSettings(saved: string): Settings {
+  let value: unknown
+
+  try {
+    value = JSON.parse(saved)
+  } catch {
+    throw new Error("The saved settings are not valid text")
+  }
+
+  if (!isSettings(value)) {
+    throw new Error(
+      "The saved settings need a name and, if present, a true or false hints",
+    )
+  }
+
+  return value
+}
+
+function isSettings(value: unknown): value is Settings {
+  if (typeof value !== "object" || value === null) {
+    return false
+  }
+
+  if (!("name" in value) || typeof value.name !== "string") {
+    return false
+  }
+
+  if ("hints" in value && typeof value.hints !== "boolean") {
+    return false
+  }
+
+  return true
 }
 
 function isSavedGame(value: unknown): value is SavedGame {

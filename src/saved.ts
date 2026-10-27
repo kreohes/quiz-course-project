@@ -26,3 +26,5 @@ export const savedGame = JSON.stringify({
   answers: initialAnswers,
   startedAt: new Date(),
 })
+
+export const savedSettings = JSON.stringify({ name: "Ilia", hints: false })

@@ -1,8 +1,8 @@
-import { type Answer, type Question } from "./types.ts"
+import { type Answer, type Question, type Settings } from "./types.ts"
 
-export function show(question: Question): string {
+export function show(question: Question, settings: Settings): string {
   let hint = ""
-  if (question.hint !== undefined) {
+  if (question.hint !== undefined && settings.hints !== false) {
     hint = "\nHint: " + question.hint
   }
 

@@ -1,11 +1,15 @@
 import { quiz } from "./data.ts"
-import { loadSavedGame } from "./lib/load.ts"
+import { loadSavedGame, loadSettings } from "./lib/load.ts"
 import { recap, show } from "./lib/quiz.ts"
 import { Session } from "./lib/session.ts"
-import { savedGame } from "./saved.ts"
+import { savedGame, savedSettings } from "./saved.ts"
 
+const settings = loadSettings(savedSettings)
 const game = loadSavedGame(savedGame)
 const answers = game.answers
+
+console.log("Hello, " + settings.name)
+console.log("")
 
 const session = new Session(quiz.outcomes)
 
@@ -17,7 +21,7 @@ for (let i = 0; i < quiz.questions.length; i++) {
 
   const award = session.record(question, answer)
 
-  console.log(show(question))
+  console.log(show(question, settings))
   console.log("Answer worth " + award.points + " points for " + award.outcome)
   console.log("")
 }
@@ -53,6 +57,20 @@ try {
 }
 try {
   loadSavedGame('{"answers": [')
+} catch (error) {
+  if (error instanceof Error) {
+    console.log(error.message)
+  }
+}
+try {
+  loadSettings('{"name": 7}')
+} catch (error) {
+  if (error instanceof Error) {
+    console.log(error.message)
+  }
+}
+try {
+  loadSettings("name: Ilia")
 } catch (error) {
   if (error instanceof Error) {
     console.log(error.message)
