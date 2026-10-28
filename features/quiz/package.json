@@ -1,0 +1,23 @@
+{
+  "name": "quiz",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "main": "src/index.ts",
+  "scripts": {
+    "lint": "pnpm run \"/^lint-.*/\"",
+    "lint-typecheck": "tsc",
+    "lint-prettier": "prettier --check .",
+    "lint-eslint": "eslint .",
+    "start": "node ."
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@types/node": "^24.0.0",
+    "eslint": "catalog:",
+    "globals": "^17.13.0",
+    "prettier": "catalog:",
+    "typescript": "catalog:",
+    "typescript-eslint": "^8.71.2"
+  }
+}

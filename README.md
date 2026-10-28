@@ -7,15 +7,19 @@ There is no right answers, every answer gives points and at the end you get a re
 ## How to run
 
 ```
-npm install
-npm start
-npm run lint
+pnpm install
+pnpm start
+pnpm lint
 ```
 
-`npm start` runs src/index.ts with node (node 24 or newer can run .ts files directly).
-`npm run lint` runs tsc, then prettier, then eslint.
+The project is a pnpm workspace now. The quiz lives in `features/quiz`, the root only
+has the workspace files (pnpm-workspace.yaml, nx.json). `pnpm lint` runs lint in every
+package with Nx, `pnpm start` runs the quiz with node (node 24 or newer can run .ts
+files directly).
 
 ## Files
+
+Inside `features/quiz`:
 
 - `src/types.ts` - the types (Choice, Question, Answer, Outcome)
 - `src/data.ts` - the questions and the outcome
