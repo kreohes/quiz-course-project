@@ -12,8 +12,9 @@ pnpm start
 pnpm lint
 ```
 
-The project is a pnpm workspace now. The quiz lives in `features/quiz`, the root only
-has the workspace files (pnpm-workspace.yaml, nx.json). `pnpm lint` runs lint in every
+The project is a pnpm workspace now. The quiz lives in `features/quiz`, the shared
+settings for TypeScript, ESLint and Prettier in `internal/tooling`, the root only has the
+workspace files (pnpm-workspace.yaml, nx.json). `pnpm lint` runs lint in every
 package with Nx, `pnpm start` runs the quiz with node (node 24 or newer can run .ts
 files directly).
 
