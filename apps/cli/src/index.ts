@@ -1,7 +1,7 @@
-import { quiz } from "./data.ts"
-import { loadSavedGame, loadSettings } from "./lib/load.ts"
-import { recap, show } from "./lib/quiz.ts"
-import { Session } from "./lib/session.ts"
+import { quiz } from "@platform/quiz/data"
+import { recap, Session, show } from "@platform/quiz/play"
+import { loadSavedGame, loadSettings } from "@platform/quiz/saved"
+
 import { savedGame, savedSettings } from "./saved.ts"
 
 const settings = loadSettings(savedSettings)

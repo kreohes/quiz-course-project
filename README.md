@@ -12,7 +12,7 @@ pnpm start
 pnpm lint
 ```
 
-The project is a pnpm workspace now. The quiz lives in `features/quiz`, the shared
+The project is a pnpm workspace now. The quiz library lives in `features/quiz`, the cli in `apps/cli`, the shared
 settings for TypeScript, ESLint and Prettier in `internal/tooling`, the root only has the
 workspace files (pnpm-workspace.yaml, nx.json). `pnpm lint` runs lint in every
 package with Nx, `pnpm start` runs the quiz with node (node 24 or newer can run .ts
@@ -20,12 +20,15 @@ files directly).
 
 ## Files
 
-Inside `features/quiz`:
+`features/quiz` is the library (`@platform/quiz`), `apps/cli` is the program:
 
-- `src/types.ts` - the types (Choice, Question, Answer, Outcome)
-- `src/data.ts` - the questions and the outcome
-- `src/quiz.ts` - the functions show, award and recap
-- `src/index.ts` - runs the quiz
+- `features/quiz/src/play/` - types, show, award, recap, the Session class and the guards
+- `features/quiz/src/saved/` - loading a saved game and the settings from text
+- `features/quiz/src/data.ts` - the questions and the outcomes of my quiz
+- `apps/cli/src/index.ts` - runs the quiz, `apps/cli/src/saved.ts` - the saved answers
+
+Every folder in `src` is reached only through its `index.ts`, the exports map in
+package.json makes `@platform/quiz/play` and `@platform/quiz/saved` work.
 
 ## How it works now
 

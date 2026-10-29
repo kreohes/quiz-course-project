@@ -1,4 +1,9 @@
-import { type Answer, type Question, type Settings } from "./types.ts"
+import {
+  type Answer,
+  type OutcomeId,
+  type Question,
+  type Settings,
+} from "./types.ts"
 
 export function show(question: Question, settings: Settings): string {
   let hint = ""
@@ -44,4 +49,33 @@ export function recap(question: Question, answer: Answer): string {
     }
   }
   throw new Error("The answer does not match the question")
+}
+
+export interface Award {
+  outcome: OutcomeId
+  points: number
+}
+
+export function award(question: Question, answer: Answer): Award {
+  if (question.kind !== answer.kind) {
+    throw new Error("The answer does not match the question")
+  }
+
+  if (question.kind === "choice" && answer.kind === "choice") {
+    return { outcome: answer.picked.outcome, points: answer.picked.points }
+  }
+
+  if (question.kind === "scale" && answer.kind === "scale") {
+    return { outcome: question.outcome, points: answer.value }
+  }
+
+  if (question.kind === "yesno" && answer.kind === "yesno") {
+    if (answer.value) {
+      return { outcome: question.outcome, points: 1 }
+    } else {
+      return { outcome: question.outcome, points: 0 }
+    }
+  }
+
+  throw new Error("Unknown kind")
 }
