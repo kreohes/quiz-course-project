@@ -1,4 +1,5 @@
 import { quiz } from "@platform/quiz/data"
+import outline, { countKinds as kinds } from "@platform/quiz/outline"
 import { recap, Session, show } from "@platform/quiz/play"
 import { loadSavedGame, loadSettings } from "@platform/quiz/saved"
 
@@ -9,6 +10,24 @@ const game = loadSavedGame(savedGame)
 const answers = game.answers
 
 console.log("Hello, " + settings.name)
+console.log("")
+
+console.log("## Outline")
+console.log("")
+const lines = outline(quiz)
+for (let i = 0; i < lines.length; i++) {
+  console.log(lines[i])
+}
+console.log("")
+const counts = kinds(quiz)
+console.log(
+  "Kinds: choice " +
+    counts.choice +
+    ", scale " +
+    counts.scale +
+    ", yesno " +
+    counts.yesno,
+)
 console.log("")
 
 const session = new Session(quiz.outcomes)

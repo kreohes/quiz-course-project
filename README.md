@@ -24,6 +24,7 @@ files directly).
 
 - `features/quiz/src/play/` - types, show, award, recap, the Session class and the guards
 - `features/quiz/src/saved/` - loading a saved game and the settings from text
+- `features/quiz/src/outline/` - outline of a quiz and the count of kinds
 - `features/quiz/src/data.ts` - the questions and the outcomes of my quiz
 - `apps/cli/src/index.ts` - runs the quiz, `apps/cli/src/saved.ts` - the saved answers
 
