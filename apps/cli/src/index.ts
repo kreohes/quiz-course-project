@@ -1,21 +1,34 @@
 import outline, { countKinds as kinds } from "@platform/quiz/outline"
-import { type Quiz, recap, Session, show } from "@platform/quiz/play"
+import {
+  type Quiz,
+  type Settings,
+  recap,
+  Session,
+  show,
+} from "@platform/quiz/play"
 import { loadQuiz } from "@platform/quiz/quizzes"
-import { loadSavedGame, loadSettings } from "@platform/quiz/saved"
+import {
+  type SavedGame,
+  readSavedGame,
+  readSettings,
+} from "@platform/quiz/saved"
+import path from "node:path"
 
-import { savedGame, savedSettings } from "./saved.ts"
+const saved = path.join(import.meta.dirname, "..", "saved")
 
 let quiz: Quiz
+let settings: Settings
+let game: SavedGame
 
 try {
   quiz = await loadQuiz("barcelona")
+  settings = await readSettings(path.join(saved, "settings.json"))
+  game = await readSavedGame(path.join(saved, "game.json"))
 } catch (error) {
   console.error(error instanceof Error ? error.message : error)
   process.exit(1)
 }
 
-const settings = loadSettings(savedSettings)
-const game = loadSavedGame(savedGame)
 const answers = game.answers
 
 console.log("Hello, " + settings.name)
@@ -72,35 +85,4 @@ console.log("You got this because:")
 const reasons = session.explain()
 for (let i = 0; i < reasons.length; i++) {
   console.log("- " + reasons[i])
-}
-
-// what happens with a broken save
-console.log("")
-try {
-  loadSavedGame('{"answers":[{"kind":"scale","value":"five"}]}')
-} catch (error) {
-  if (error instanceof Error) {
-    console.log(error.message)
-  }
-}
-try {
-  loadSavedGame('{"answers": [')
-} catch (error) {
-  if (error instanceof Error) {
-    console.log(error.message)
-  }
-}
-try {
-  loadSettings('{"name": 7}')
-} catch (error) {
-  if (error instanceof Error) {
-    console.log(error.message)
-  }
-}
-try {
-  loadSettings("name: Ilia")
-} catch (error) {
-  if (error instanceof Error) {
-    console.log(error.message)
-  }
 }

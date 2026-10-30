@@ -1,0 +1,23 @@
+{
+  "answers": [
+    {
+      "kind": "choice",
+      "picked": {
+        "label": "Coffee on a small square, then a slow walk",
+        "outcome": "gracia",
+        "points": 3
+      }
+    },
+    {
+      "kind": "choice",
+      "picked": {
+        "label": "Paella with your feet almost in the sand",
+        "outcome": "barceloneta",
+        "points": 2
+      }
+    },
+    { "kind": "scale", "value": 2 },
+    { "kind": "yesno", "value": true }
+  ],
+  "startedAt": "2026-10-30T18:02:11.000Z"
+}

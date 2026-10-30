@@ -73,11 +73,39 @@ export function isQuiz(value: unknown): value is Quiz {
     return false
   }
 
+  if (!("outcomes" in value) || !Array.isArray(value.outcomes)) {
+    return false
+  }
+  for (let i = 0; i < value.outcomes.length; i++) {
+    if (!isOutcome(value.outcomes[i])) {
+      return false
+    }
+  }
+
+  if (!("questions" in value) || !Array.isArray(value.questions)) {
+    return false
+  }
+  for (let i = 0; i < value.questions.length; i++) {
+    if (!isQuestion(value.questions[i])) {
+      return false
+    }
+  }
+
   return true
 }
 
 export function isOutcome(value: unknown): value is Outcome {
   if (typeof value !== "object" || value === null) {
+    return false
+  }
+
+  if (!("id" in value) || typeof value.id !== "string") {
+    return false
+  }
+  if (!("title" in value) || typeof value.title !== "string") {
+    return false
+  }
+  if (!("description" in value) || typeof value.description !== "string") {
     return false
   }
 
