@@ -4,7 +4,6 @@
   "private": true,
   "type": "module",
   "exports": {
-    "./data": "./src/data.ts",
     "./*": "./src/*/index.ts",
     "./package.json": "./package.json"
   },
@@ -16,7 +15,7 @@
   },
   "devDependencies": {
     "@platform/tooling": "workspace:*",
-    "@types/node": "^24.0.0",
+    "@types/node": "catalog:",
     "eslint": "catalog:",
     "prettier": "catalog:",
     "typescript": "catalog:"

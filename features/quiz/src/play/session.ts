@@ -1,33 +1,23 @@
 import { type Award, award, recap } from "./quiz.ts"
-import {
-  type Answer,
-  type Outcome,
-  type OutcomeId,
-  type Question,
-} from "./types.ts"
+import { type Answer, type Outcome, type Question } from "./types.ts"
 
 export type Status = "waiting" | "asking" | "done"
 
 export class Session {
-  private tally: Record<OutcomeId, number> = {
-    gracia: 0,
-    barceloneta: 0,
-    eixample: 0,
-    born: 0,
-  }
-
-  private reasons: Record<OutcomeId, string[]> = {
-    gracia: [],
-    barceloneta: [],
-    eixample: [],
-    born: [],
-  }
+  private tally: Record<string, number> = {}
+  private reasons: Record<string, string[]> = {}
 
   private outcomes: Outcome[]
   private status: Status = "waiting"
 
   constructor(outcomes: Outcome[]) {
     this.outcomes = outcomes
+
+    // any quiz can have any outcomes, so the records start empty
+    for (let i = 0; i < outcomes.length; i++) {
+      this.tally[outcomes[i].id] = 0
+      this.reasons[outcomes[i].id] = []
+    }
   }
 
   public start(): void {
@@ -44,6 +34,9 @@ export class Session {
     }
 
     const result = award(question, answer)
+    if (!(result.outcome in this.tally)) {
+      throw new Error("Unknown outcome " + result.outcome)
+    }
     this.tally[result.outcome] = this.tally[result.outcome] + result.points
 
     if (result.points > 0) {

@@ -1,9 +1,4 @@
-import {
-  type Answer,
-  type OutcomeId,
-  type Question,
-  type Settings,
-} from "./types.ts"
+import { type Answer, type Question, type Settings } from "./types.ts"
 
 export function show(question: Question, settings: Settings): string {
   let hint = ""
@@ -52,7 +47,7 @@ export function recap(question: Question, answer: Answer): string {
 }
 
 export interface Award {
-  outcome: OutcomeId
+  outcome: string
   points: number
 }
 

@@ -1,7 +1,9 @@
 import {
   type Answer,
   type Choice,
-  type OutcomeId,
+  type Outcome,
+  type Question,
+  type Quiz,
   type Settings,
 } from "./types.ts"
 
@@ -39,7 +41,7 @@ export function isChoice(value: unknown): value is Choice {
     return false
   }
 
-  if (!("outcome" in value) || !isOutcomeId(value.outcome)) {
+  if (!("outcome" in value) || typeof value.outcome !== "string") {
     return false
   }
 
@@ -66,11 +68,61 @@ export function isSettings(value: unknown): value is Settings {
   return true
 }
 
-function isOutcomeId(value: unknown): value is OutcomeId {
-  return (
-    value === "gracia" ||
-    value === "barceloneta" ||
-    value === "eixample" ||
-    value === "born"
-  )
+export function isQuiz(value: unknown): value is Quiz {
+  if (typeof value !== "object" || value === null) {
+    return false
+  }
+
+  return true
+}
+
+export function isOutcome(value: unknown): value is Outcome {
+  if (typeof value !== "object" || value === null) {
+    return false
+  }
+
+  return true
+}
+
+export function isQuestion(value: unknown): value is Question {
+  if (typeof value !== "object" || value === null) {
+    return false
+  }
+
+  if (!("kind" in value) || typeof value.kind !== "string") {
+    return false
+  }
+
+  if (!("text" in value) || typeof value.text !== "string") {
+    return false
+  }
+
+  if ("hint" in value && typeof value.hint !== "string") {
+    return false
+  }
+
+  if (value.kind === "choice") {
+    return (
+      "choices" in value &&
+      Array.isArray(value.choices) &&
+      value.choices.every((choice) => isChoice(choice))
+    )
+  }
+
+  if (value.kind === "scale") {
+    return (
+      "low" in value &&
+      typeof value.low === "string" &&
+      "high" in value &&
+      typeof value.high === "string" &&
+      "outcome" in value &&
+      typeof value.outcome === "string"
+    )
+  }
+
+  if (value.kind === "yesno") {
+    return "outcome" in value && typeof value.outcome === "string"
+  }
+
+  return false
 }

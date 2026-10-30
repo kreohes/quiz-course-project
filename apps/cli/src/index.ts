@@ -1,9 +1,18 @@
-import { quiz } from "@platform/quiz/data"
 import outline, { countKinds as kinds } from "@platform/quiz/outline"
-import { recap, Session, show } from "@platform/quiz/play"
+import { type Quiz, recap, Session, show } from "@platform/quiz/play"
+import { loadQuiz } from "@platform/quiz/quizzes"
 import { loadSavedGame, loadSettings } from "@platform/quiz/saved"
 
 import { savedGame, savedSettings } from "./saved.ts"
+
+let quiz: Quiz
+
+try {
+  quiz = await loadQuiz("barcelona")
+} catch (error) {
+  console.error(error instanceof Error ? error.message : error)
+  process.exit(1)
+}
 
 const settings = loadSettings(savedSettings)
 const game = loadSavedGame(savedGame)

@@ -25,7 +25,7 @@ files directly).
 - `features/quiz/src/play/` - types, show, award, recap, the Session class and the guards
 - `features/quiz/src/saved/` - loading a saved game and the settings from text
 - `features/quiz/src/outline/` - outline of a quiz and the count of kinds
-- `features/quiz/src/data.ts` - the questions and the outcomes of my quiz
+- `features/quiz/src/quizzes/` - the quizzes as JSON files and `loadQuiz` that reads and checks them
 - `apps/cli/src/index.ts` - runs the quiz, `apps/cli/src/saved.ts` - the saved answers
 
 Every folder in `src` is reached only through its `index.ts`, the exports map in
@@ -43,8 +43,9 @@ kind as the question, recap throws an error if not.
 
 ## Adding a question
 
-Add it to `questions` in data.ts and add an answer for it in index.ts in the same position,
-otherwise the program will crash.
+Add it to `questions` in `features/quiz/src/quizzes/barcelona.json` and add an answer for it
+in `apps/cli/src/saved.ts` in the same position, otherwise the program will crash. Every choice
+and every scale and yes/no question points to an outcome by its id.
 
 ## Status
 
