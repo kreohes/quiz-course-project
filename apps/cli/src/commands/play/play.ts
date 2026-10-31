@@ -1,9 +1,10 @@
 import outline, { countKinds as kinds } from "@platform/quiz/outline"
-import { recap, Session, show } from "@platform/quiz/play"
+import { type Answer, recap, Session } from "@platform/quiz/play"
 import { loadQuiz } from "@platform/quiz/quizzes"
-import { readSavedGame, readSettings } from "@platform/quiz/saved"
+import { readSettings } from "@platform/quiz/saved"
 
-import { locateSavedGame, locateSettings } from "../../lib/saved.ts"
+import { locateSettings } from "../../lib/saved.ts"
+import { ask } from "./ask.ts"
 
 interface Options {
   name?: string
@@ -15,8 +16,6 @@ export default async function play(
 ): Promise<void> {
   const quiz = await loadQuiz(quizName)
   const settings = await readSettings(locateSettings())
-  const game = await readSavedGame(locateSavedGame())
-  const answers = game.answers
 
   console.log("Hello, " + (options.name ?? settings.name))
   console.log("")
@@ -40,17 +39,23 @@ export default async function play(
   console.log("")
 
   const session = new Session(quiz.outcomes)
+  const answers: Answer[] = []
 
   session.start()
 
+  console.log("## Questions")
+  console.log("")
+
   for (let i = 0; i < quiz.questions.length; i++) {
     const question = quiz.questions[i]
-    const answer = answers[i]
+    const answer = await ask(settings, question)
 
     const award = session.record(question, answer)
+    answers.push(answer)
 
-    console.log(show(question, settings))
-    console.log("Answer worth " + award.points + " points for " + award.outcome)
+    console.log(
+      "Your answer worth " + award.points + " points for " + award.outcome,
+    )
     console.log("")
   }
 

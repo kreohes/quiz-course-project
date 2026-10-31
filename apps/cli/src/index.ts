@@ -14,6 +14,11 @@ program
 try {
   await program.parseAsync()
 } catch (error) {
-  console.error(error instanceof Error ? error.message : error)
-  process.exitCode = 1
+  if (error instanceof Error && error.name === "ExitPromptError") {
+    // Ctrl+C in a prompt, exit quietly
+    process.exitCode = 130
+  } else {
+    console.error(error instanceof Error ? error.message : error)
+    process.exitCode = 1
+  }
 }
