@@ -1,6 +1,7 @@
 import { program } from "commander"
 
 import play from "./commands/play/index.ts"
+import replay from "./commands/replay/index.ts"
 
 program.name("quiz").description("Take a quiz in the terminal")
 
@@ -10,6 +11,12 @@ program
   .argument("[quiz]", "the quiz to play", "barcelona")
   .option("-n, --name <name>", "your name")
   .action(play)
+
+program
+  .command("replay")
+  .description("Play a quiz again with the answers saved in saved/game.json")
+  .argument("[quiz]", "the quiz to replay", "barcelona")
+  .action(replay)
 
 try {
   await program.parseAsync()

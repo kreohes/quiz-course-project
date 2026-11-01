@@ -8,8 +8,12 @@ There is no right answers, every answer gives points and at the end you get a re
 
 ```
 pnpm install
-pnpm start
 pnpm lint
+cd apps/cli
+node . --help
+node . play                 # asks the questions in the terminal
+node . play --name Bo
+node . replay               # plays again with the answers from saved/game.json
 ```
 
 The project is a pnpm workspace now. The quiz library lives in `features/quiz`, the cli in `apps/cli`, the shared
@@ -26,16 +30,18 @@ files directly).
 - `features/quiz/src/saved/` - loading a saved game and the settings from text
 - `features/quiz/src/outline/` - outline of a quiz and the count of kinds
 - `features/quiz/src/quizzes/` - the quizzes as JSON files and `loadQuiz` that reads and checks them
-- `apps/cli/src/index.ts` - runs the quiz, `apps/cli/saved/` - the saved answers and the settings as JSON
+- `apps/cli/src/index.ts` - the commands (commander), `apps/cli/src/commands/` - play and replay
+- `apps/cli/saved/` - the saved answers and the settings as JSON
 
 Every folder in `src` is reached only through its `index.ts`, the exports map in
 package.json makes `@platform/quiz/play` and `@platform/quiz/saved` work.
 
 ## How it works now
 
-The answers are hardcoded in index.ts because there is no input yet. The program prints
-every question, the points for every answer, the total, a recap of all answers and the
-result card.
+`play` asks every question in the terminal (a list for choice, a number for scale, yes/no
+for yesno), counts the points for every outcome in a Session and prints the result card
+with the reasons. `replay` does the same with the answers saved in `apps/cli/saved/game.json`,
+that is how the quiz worked before the prompts.
 
 A question has a `kind`: choice, scale or yesno. Choice has a list of choices with label
 and points, scale has labels for 1 and 5, yesno has only the text. The answer has the same
@@ -49,9 +55,10 @@ and every scale and yes/no question points to an outcome by its id.
 
 ## Status
 
-Cycle 1 - first question and result card. Cycle 2 - three kinds of question, show, award,
-recap and the total.
+Module 1: types, three kinds of questions, Session with outcomes and reasons, saved game and
+settings with guards. Module 2: pnpm workspace with Nx and shared tooling. Module 3: modlets,
+quiz from JSON, play and replay commands.
 
 ## Next
 
-More outcomes, a class to keep the score, answers from the terminal.
+Questions over the wire: a server and a browser page for the same quiz.
